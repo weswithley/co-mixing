@@ -1,0 +1,24 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #eeeeee;
+  font-size: 32px;
+  letter-spacing: 1px;
+  overflow: hidden;
+  font-family: '微軟正黑體';
+  font-weight: 100;
+}
+
+a {
+  display: inline-block;
+}
+
+a,
+a:active,
+a:focus :hover,
+a:link,
+a:visited {
+  text-decoration: none;
+  color: #666;
+  display: inline-block;
+}
