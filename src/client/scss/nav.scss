@@ -1,0 +1,14 @@
+nav{
+  width: 300px;
+  border-radius: 10px;
+  border: 1px solid #ffffff;
+  background-color: #333;
+  margin: 10px;
+  padding-top: 10px;
+
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  // grid-column-gap: 0px;
+
+  /* cursor: move; */
+}

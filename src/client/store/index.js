@@ -22,6 +22,11 @@ const colorEnum = [
     'hex': 'aeff00'
   },
   {
+    'name': 'teal',
+    'rgb': { 'r': 33, 'g': 221, 'b': 212 },
+    'hex': '21ddd4'
+  },
+  {
     'name': 'blue',
     'rgb': { 'r': 0, 'g': 120, 'b': 255 },
     'hex': '0078ff'
@@ -35,6 +40,21 @@ const colorEnum = [
     'name': 'purple',
     'rgb': { 'r': 91, 'g': 0, 'b': 254 },
     'hex': '5b00fe'
+  },
+  {
+    'name': 'deep-purple',
+    'rgb': { 'r': 15, 'g': 5, 'b': 63 },
+    'hex': '0f053f'
+  },
+  {
+    'name': 'black',
+    'rgb': { 'r': 0, 'g': 0, 'b': 0 },
+    'hex': '000000'
+  },
+  {
+    'name': 'white',
+    'rgb': { 'r': 255, 'g': 255, 'b': 255 },
+    'hex': 'ffffff'
   }
 ]
 
