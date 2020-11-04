@@ -2,23 +2,25 @@
 import React, { useContext, Fragment } from 'react';
 
 // customize js
-import '../toolkit/index.js';
+import '../toolkit/toolkit.js';
 
 // components
 import { Nav } from './Nav';
-import { Footer } from './Footer';
 
 // store
-import { MainContext } from '../store';
+import { coMixingContext } from '../context/context';
 
 // scss
 import '../scss/style.scss';
 
 export const App = () => {
+  const context = useContext(coMixingContext);
+
   return (
-    <Fragment>
-      <Nav></Nav>
-      <Footer></Footer>
-    </Fragment>
+    <coMixingContext.Provider value={context }>
+      <Fragment>
+        <Nav></Nav>
+      </Fragment>
+    </coMixingContext.Provider>
   );
 };

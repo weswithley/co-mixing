@@ -2,23 +2,32 @@
 import React, { useContext } from 'react';
 
 // customize js
-import '../toolkit/index.js';
+import '../toolkit/toolkit.js';
 
 // components
 import { ColorBtn } from './ColorBtn';
 
 // store
-import { MainContext } from '../store';
+import { coMixingContext } from '../context/context';
 
 // scss
 import '../scss/nav.scss';
 
 export const Nav = () => {
-  const { colorEnum } = useContext(MainContext);
+  const { colorDefaultEnum, colorReducer } = useContext(coMixingContext);
 
   return (
     <nav>
-      { colorEnum.map((item) => { return <ColorBtn key={'color-btn' + item.hex} colorSettings={item}></ColorBtn> }) }
+      { colorDefaultEnum.map((item) => {
+        return (
+            <ColorBtn
+              key={'color-btn' + item.rgb.r + item.rgb.g + item.rgb.b}
+              colorSettings={item}
+              colorSwitcher={colorReducer}>
+            </ColorBtn>
+          )
+        })
+      }
     </nav>
   );
 };
