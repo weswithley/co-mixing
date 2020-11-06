@@ -4,7 +4,7 @@ import React from 'react';
 import { actionFilterList } from '../action/action'
 
 // reducer
-import { colorReducer } from '../reducer/reducer';
+// import { colorReducer } from '../reducer/reducer';
 
 const colorDefaultEnum = [
   {
@@ -53,7 +53,7 @@ const colorDefaultEnum = [
   }
 ]
 
-const colorDrawEnum = []
+const colorNewEnum = []
 
 const iconDefaultEnum = [
   { 'name': 'undo', 'fa': 'fas fa-undo-alt' },
@@ -62,9 +62,8 @@ const iconDefaultEnum = [
 
 export const mainEnum = {
   colorDefaultEnum,
-  colorDrawEnum,
-  iconDefaultEnum,
-  colorReducer
+  colorNewEnum,
+  iconDefaultEnum
 }
 
-export const coMixingContext = React.createContext(mainEnum);
+export const CoMixingContext = React.createContext(mainEnum);

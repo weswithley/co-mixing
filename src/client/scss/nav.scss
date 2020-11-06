@@ -8,7 +8,7 @@ nav{
 
   display: grid;
   grid-template-columns: repeat(9, 1fr);
-  // grid-column-gap: 0px;
 
-  /* cursor: move; */
+  position: relative;
+  z-index: 9;
 }

@@ -1,26 +1,29 @@
 // library
-import React, { useContext, Fragment } from 'react';
+import React, { useContext, useReducer } from 'react';
+
+// store
+import { CoMixingContext, mainEnum } from '../context/context';
+import { colorReducer } from '../reducer/reducer';
 
 // customize js
 import '../toolkit/toolkit.js';
 
 // components
 import { Nav } from './Nav';
-
-// store
-import { coMixingContext } from '../context/context';
+import { Mixer } from './Mixer';
 
 // scss
 import '../scss/style.scss';
 
 export const App = () => {
-  const context = useContext(coMixingContext);
+  const { colorDefaultEnum, colorNewEnum, iconDefaultEnum } = mainEnum;
+  const [colorUpdateNewEnum, colorReducerDispatch] = useReducer(colorReducer, colorNewEnum);
+  const context = { colorUpdateNewEnum, colorDefaultEnum, iconDefaultEnum, colorReducerDispatch }
 
   return (
-    <coMixingContext.Provider value={context }>
-      <Fragment>
-        <Nav></Nav>
-      </Fragment>
-    </coMixingContext.Provider>
+    <CoMixingContext.Provider value={ context }>
+      <Nav></Nav>
+      <Mixer></Mixer>
+    </CoMixingContext.Provider>
   );
 };

@@ -1,19 +1,12 @@
-const getPosition = () => {
-  console.log('getPosition');
-}
+export const findSpecificRgbItemIndex = (arr, setting) => {
+  let resultArr = [];
+  resultArr = arr.map((loopItem, tmpIndex) => {
+    if (loopItem.rgb.r === setting.rgb.r && loopItem.rgb.g === setting.rgb.g && loopItem.rgb.b === setting.rgb.b){
+      return tmpIndex
+    }else{
+      return null
+    }
+  }).filter((filterItem) => { return !!filterItem || resultArr == 0 })
 
-const draw = (rgb) => {
-  const tmpCtx = canvas.getContext("2d");
-
-  tmpCtx.beginPath();
-  tmpCtx.lineWidth = Math.random() * 5;
-  tmpCtx.lineCap = 'round';
-
-  tmpCtx.strokeStyle = `rgba(${rgbEnum.r}, ${rgbEnum.g}, ${rgbEnum.b}, 1)`;
-
-  tmpCtx.moveTo(oldPos.x, oldPos.y);
-  setOldPosition(e);
-  tmpCtx.lineTo(oldPos.x, oldPos.y);
-
-  tmpCtx.stroke();
+  return resultArr[0]
 }
