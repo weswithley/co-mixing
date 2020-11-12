@@ -1,7 +1,11 @@
+export const isColorSame = (oldValue, newValue) => {
+  return oldValue.rgb.r === newValue.rgb.r && oldValue.rgb.g === newValue.rgb.g && oldValue.rgb.b === newValue.rgb.b
+}
+
 export const findSpecificRgbItemIndex = (arr, setting) => {
   let resultArr = [];
   resultArr = arr.map((loopItem, tmpIndex) => {
-    if (loopItem.rgb.r === setting.rgb.r && loopItem.rgb.g === setting.rgb.g && loopItem.rgb.b === setting.rgb.b){
+    if (isColorSame(loopItem, tmpIndex)){
       return tmpIndex
     }else{
       return null

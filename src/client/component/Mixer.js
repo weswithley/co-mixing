@@ -29,7 +29,8 @@ export const Mixer = () => {
                   rgb: item.rgb
                 }
               }
-              colorSwitcher={colorReducerDispatch}>
+              colorSwitcher={colorReducerDispatch}
+              mixerMode={true}>
             </ColorBtn>
           )
         })
