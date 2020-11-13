@@ -25,36 +25,41 @@ export const ColorBtn = (props) => {
   const colorUp = () => {
     console.log('colorUp');
     const tmpTarget = currentColorBtn.current;
-    tmpTarget.removeEventListener('mousemove', () => {});
+    document.removeEventListener('mousemove', colorMove);
+    document.removeEventListener('mouseup', colorUp);
   }
 
   const colorDown = () => {
     console.log('colorDown');
     const tmpTarget = currentColorBtn.current;
-    tmpTarget.addEventListener('mousemove', (e) => {
-      colorMove(e);
-    })
+    document.addEventListener('mousemove', colorMove);
+    document.addEventListener('mouseup', colorUp);
   }
 
   const colorMove = (e) => {
     const tmpTarget = currentColorBtn.current;
     // console.log('e-', e, e.target);
     console.log('e', e.layerX, e.layerY);
-    TweenMax.to(tmpTarget, 0, { x: e.layerX, y: e.layerY });
+    TweenMax.to(tmpTarget, 0.2, { x: e.layerX, y: e.layerY });
+  }
+
+  const styleEnum = {
+    backgroundColor: tmpRGB,
+    top: colorSettings.top,
+    left: colorSettings.top
   }
 
   return (
     <div
       className="color-btn"
       ref={currentColorBtn}
-      style={{ backgroundColor: tmpRGB }}
+      style={ styleEnum }
       onClick={() => !mixerMode && colorSwitcher(colorSettings)}
       onTouchStart={() => !mixerMode && colorSwitcher(colorSettings)}
       onDoubleClick={() => mixerMode && colorSwitcher(colorSettings)}
       onMouseEnter={() => mixerMode && colorTransform('enter')}
       onMouseLeave={() => mixerMode && colorTransform('leave')}
       onMouseDown={(e) => mixerMode && colorDown()}
-      onMouseUp={(e) => mixerMode && colorUp()}
       onMouseMove={(e) => mixerMode && colorMove(e)}
     >
     </div>
