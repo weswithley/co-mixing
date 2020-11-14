@@ -2,7 +2,7 @@
 import { actionFilterList } from '../action/action';
 
 // toolkit
-import { findSpecificRgbItemIndex, isColorSame } from '../toolkit/toolkit';
+import { isColorSame, colorEnter, colorLeave, colorUp, colorDown } from '../toolkit/toolkit';
 
 export const colorReducer = (state, action) => {
   console.log('state-', state);
@@ -29,6 +29,18 @@ export const colorReducer = (state, action) => {
       resultArr.splice(index, 1);
 
       return resultArr
+    case actionFilterList.COLOR_ENTER:
+      colorEnter(action.target);
+      return state
+    case actionFilterList.COLOR_LEAVE:
+      colorLeave();
+      return state
+    case actionFilterList.COLOR_UP:
+      colorUp();
+      return state
+    case actionFilterList.COLOR_DOWN:
+      colorDown(action.target);
+      return state
     case actionFilterList.REVERSE:
       console.log('REVERSE');
       return action

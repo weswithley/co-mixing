@@ -18,9 +18,9 @@ export const Nav = () => {
         colorDefaultEnum.map((item) => {
           return (
             <ColorBtn
-              key={'color-btn' + item.rgb.r + item.rgb.g + item.rgb.b}
+              key={'color-btn-nav-' + item.rgb.r + item.rgb.g + item.rgb.b}
               colorSettings={item}
-              colorSwitcher={colorReducerDispatch}>
+              colorReducerDispatch={colorReducerDispatch}>
             </ColorBtn>
           )
         })

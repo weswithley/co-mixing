@@ -9,6 +9,6 @@ nav{
   display: grid;
   grid-template-columns: repeat(9, 1fr);
 
-  position: relative;
+  position: absolute;
   z-index: 9;
 }

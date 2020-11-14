@@ -19,18 +19,20 @@ export const Mixer = () => {
   return (
     <div className='mixer'>
       {
-        colorUpdateNewEnum.map((item) => {
+        colorUpdateNewEnum.map((item, index) => {
           return (
             <ColorBtn
-              key={'color-btn' + item.rgb.r + item.rgb.g + item.rgb.b}
+              key={'color-btn-mixer-' + item.rgb.r + item.rgb.g + item.rgb.b}
               colorSettings={
                 {
                   type: actionFilterList.COLOR_REMOVE,
-                  rgb: item.rgb
+                  rgb: item.rgb,
+                  position: item.position
                 }
               }
-              colorSwitcher={colorReducerDispatch}
-              mixerMode={true}>
+              colorReducerDispatch={colorReducerDispatch}
+              mixerMode={true}
+              index={index}>
             </ColorBtn>
           )
         })
