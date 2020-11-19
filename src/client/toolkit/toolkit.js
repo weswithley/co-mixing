@@ -1,4 +1,3 @@
-// library
 import { gsap, TweenMax, Back } from "gsap/all";
 gsap.registerPlugin(TweenMax, Back);
 
@@ -31,4 +30,15 @@ export const colorMove = (e) => {
   if (IsColorBtn) { return }
 
   TweenMax.to(currentTarget, 0.2, { left: e.layerX, top: e.layerY });
+}
+
+const hitTest = (target1, target2) =>{
+  const rect1 = target1.getBoundingClientRect();
+  const rect2 = target2.getBoundingClientRect();
+  let result = null;
+  result = !(rect1.right < rect2.left || rect1.left > rect2.right || rect1.bottom < rect2.top ||rect1.top > rect2.bottom);
+  console.log('rect1', rect1);
+  console.log('rect2', rect2);
+  console.log('result', result);
+  return result
 }

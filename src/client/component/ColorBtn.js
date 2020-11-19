@@ -54,7 +54,6 @@ export const ColorBtn = (props) => {
       onMouseLeave={() => mixerMode && colorReducerDispatch(currentBtnEnum['leave'])}
       onMouseUp={() => mixerMode && colorReducerDispatch(currentBtnEnum['up'])}
       onMouseDown={() => mixerMode && colorReducerDispatch(currentBtnEnum['down'])}
-      // onMouseDown={() => mixerMode && colorDown()}
     >
     </div>
   );
