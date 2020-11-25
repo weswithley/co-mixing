@@ -2,17 +2,18 @@
 import { actionFilterList } from '../action/action';
 
 // toolkit
-import { isColorSame, colorEnter, colorLeave, colorUp, colorDown } from '../toolkit/toolkit';
+import { isColorSame, colorEnter, colorLeave, colorMove } from '../toolkit/toolkit';
 
 export const colorReducer = (state, action) => {
   console.log('state-', state);
   console.log('action-', action);
 
-  let resultArr = [];
+  let resultArr = [...state];
+  const index = resultArr.findIndex((item) => { return isColorSame(item, action) });
 
   switch (action.type) {
     case actionFilterList.COLOR:
-      resultArr = [...state];
+      // TO DO : mistake-proof for first time same color clicking.
       switch(true){
         case resultArr.length < 2 :
           resultArr.push(action)
@@ -24,23 +25,32 @@ export const colorReducer = (state, action) => {
 
       return resultArr
     case actionFilterList.COLOR_REMOVE:
-      resultArr = [...state];
-      const index = resultArr.findIndex((item) => { return isColorSame(item, action) });
       resultArr.splice(index, 1);
 
       return resultArr
     case actionFilterList.COLOR_ENTER:
-      colorEnter(action.target);
-      return state
+      resultArr[index] = action
+      colorEnter(action.ref);
+
+      return resultArr
     case actionFilterList.COLOR_LEAVE:
-      colorLeave();
-      return state
+      resultArr[index] = action
+      colorLeave(action.ref);
+
+      return resultArr
     case actionFilterList.COLOR_UP:
-      colorUp();
-      return state
+      resultArr[index] = action;
+
+      return resultArr
     case actionFilterList.COLOR_DOWN:
-      colorDown(action.target);
-      return state
+      resultArr[index] = action;
+
+      return resultArr
+    case actionFilterList.COLOR_MOVE:
+      resultArr[index] = action;
+      colorMove(action);
+
+      return resultArr
     case actionFilterList.REVERSE:
       console.log('REVERSE');
       return action

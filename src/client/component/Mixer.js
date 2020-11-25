@@ -23,13 +23,7 @@ export const Mixer = () => {
           return (
             <ColorBtn
               key={'color-btn-mixer-' + item.rgb.r + item.rgb.g + item.rgb.b}
-              colorSettings={
-                {
-                  type: actionFilterList.COLOR_REMOVE,
-                  rgb: item.rgb,
-                  position: item.position
-                }
-              }
+              colorSettings={item}
               colorReducerDispatch={colorReducerDispatch}
               mixerMode={true}
               index={index}>

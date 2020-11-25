@@ -12,48 +12,63 @@ import { actionFilterList } from '../action/action';
 export const ColorBtn = (props) => {
   const { colorSettings, colorReducerDispatch, mixerMode, index } = props;
   const currentColorBtn = useRef(null);
-  const currentRGB = 'rgb(' + colorSettings.rgb.r + ',' + colorSettings.rgb.g + ',' + colorSettings.rgb.b + ')';
-  const currentBtnEnum = {
-    'enter': {
-      target: null,
-      type: actionFilterList.COLOR_ENTER
-    },
-    'leave': {
-      target: null,
-      type: actionFilterList.COLOR_LEAVE
-    },
-    'up': {
-      target: null,
-      type: actionFilterList.COLOR_UP
-    },
-    'down': {
-      target: null,
-      type: actionFilterList.COLOR_DOWN
-    }
-  }
 
   const styleEnum = {
-    backgroundColor: currentRGB,
+    backgroundColor: 'rgb(' + colorSettings.rgb.r + ',' + colorSettings.rgb.g + ',' + colorSettings.rgb.b + ')',
     top: window.innerHeight / 2,
-    left: !index && index !== 0 ? window.innerWidth / 2 : window.innerWidth / 2 - ((index * -1) * 30) // make 2 color mixer btn stay with order.
+    left: !index && index !== 0 ? window.innerWidth / 2 : window.innerWidth / 2 - ((index * -1) * 30) // make 2 color mixer btns stay with order from left to right.
   }
 
-  useEffect(() => {
-    currentBtnEnum['enter'].target = currentBtnEnum['leave'].target = currentBtnEnum['up'].target = currentBtnEnum['down'].target = currentColorBtn.current
-  })
+  const onEnter = () => {
+    colorSettings.isDown = false
+    colorSettings.ref = currentColorBtn.current
+    colorSettings.type = actionFilterList.COLOR_ENTER
+    colorReducerDispatch(colorSettings)
+  }
+
+  const onLeave = () => {
+    colorSettings.isDown = false
+    colorSettings.ref = currentColorBtn.current
+    colorSettings.type = actionFilterList.COLOR_LEAVE
+    colorReducerDispatch(colorSettings)
+  }
+
+  const onUp = () => {
+    colorSettings.isDown = false
+    colorSettings.ref = currentColorBtn.current
+    colorSettings.type = actionFilterList.COLOR_UP
+    colorReducerDispatch(colorSettings)
+  }
+
+  const onDown = () => {
+    colorSettings.isDown = true
+    colorSettings.ref = currentColorBtn.current
+    colorSettings.type = actionFilterList.COLOR_DOWN
+    colorReducerDispatch(colorSettings)
+  }
+
+  // const onMove = () => {
+  //   console.log('onMove !!!');
+  //   colorSettings.ref = currentColorBtn.current
+  //   colorSettings.type = actionFilterList.COLOR_MOVE
+  //   colorReducerDispatch(colorSettings)
+  // }
+
+  // useEffect(() => {})
 
   return (
     <div
       className="color-btn"
       ref={currentColorBtn}
-      style={ styleEnum }
+      style={styleEnum}
       onClick={() => !mixerMode && colorReducerDispatch(colorSettings)}
       onTouchStart={() => !mixerMode && colorReducerDispatch(colorSettings)}
       onDoubleClick={() => mixerMode && colorReducerDispatch(colorSettings)}
-      onMouseEnter={() => mixerMode && colorReducerDispatch(currentBtnEnum['enter'])}
-      onMouseLeave={() => mixerMode && colorReducerDispatch(currentBtnEnum['leave'])}
-      onMouseUp={() => mixerMode && colorReducerDispatch(currentBtnEnum['up'])}
-      onMouseDown={() => mixerMode && colorReducerDispatch(currentBtnEnum['down'])}
+      onMouseEnter={() => mixerMode && onEnter()}
+      onMouseLeave={() => mixerMode && onLeave()}
+      onMouseUp={() => mixerMode && onUp()}
+      onMouseDown={() => mixerMode && onDown()}
+      // onMouseMove={() => mixerMode && colorSettings.isDown && onMove()}
     >
     </div>
   );
