@@ -5,7 +5,7 @@ export const actionFilterList = {
   COLOR_LEAVE: 'COLOR_LEAVE',
   COLOR_UP: 'COLOR_UP',
   COLOR_DOWN: 'COLOR_DOWN',
-  COLOR_MOVE: 'COLOR_MOVE',
+  MIXER_MOVE: 'MIXER_MOVE',
   REVERSE: 'REVERSE',
   ERASE: 'ERASE'
 }

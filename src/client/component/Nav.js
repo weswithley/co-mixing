@@ -20,7 +20,8 @@ export const Nav = () => {
             <ColorBtn
               key={'color-btn-nav-' + item.rgb.r + item.rgb.g + item.rgb.b}
               colorSettings={item}
-              colorReducerDispatch={colorReducerDispatch}>
+              colorReducerDispatch={colorReducerDispatch}
+            >
             </ColorBtn>
           )
         })

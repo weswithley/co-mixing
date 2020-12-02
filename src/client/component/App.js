@@ -3,7 +3,6 @@ import React, { useContext, useReducer } from 'react';
 
 // store
 import { CoMixingContext, mainEnum } from '../context/context';
-import { colorReducer } from '../reducer/reducer';
 
 // customize js
 import '../toolkit/toolkit.js';
@@ -16,9 +15,10 @@ import { Mixer } from './Mixer';
 import '../scss/style.scss';
 
 export const App = () => {
-  const { colorDefaultEnum, colorNewEnum, iconDefaultEnum } = mainEnum;
+  const { colorDefaultEnum, colorNewEnum, iconDefaultEnum, colorReducer, mixerReducer } = mainEnum;
   const [colorUpdateNewEnum, colorReducerDispatch] = useReducer(colorReducer, colorNewEnum);
-  const context = { colorUpdateNewEnum, colorDefaultEnum, iconDefaultEnum, colorReducerDispatch }
+  const [mixerUpdateNewEnum, mixerReducerDispatch] = useReducer(mixerReducer, colorNewEnum);
+  const context = { colorUpdateNewEnum, colorDefaultEnum, iconDefaultEnum, colorReducerDispatch, mixerReducerDispatch }
 
   return (
     <CoMixingContext.Provider value={ context }>

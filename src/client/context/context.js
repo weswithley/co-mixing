@@ -4,7 +4,7 @@ import React from 'react';
 import { actionFilterList } from '../action/action'
 
 // reducer
-// import { colorReducer } from '../reducer/reducer';
+import { colorReducer, mixerReducer } from '../reducer/reducer';
 
 const colorDefaultEnum = [
   {
@@ -96,7 +96,9 @@ const iconDefaultEnum = [
 export const mainEnum = {
   colorDefaultEnum,
   colorNewEnum,
-  iconDefaultEnum
+  iconDefaultEnum,
+  colorReducer,
+  mixerReducer
 }
 
 export const CoMixingContext = React.createContext(mainEnum);

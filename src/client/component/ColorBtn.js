@@ -20,14 +20,12 @@ export const ColorBtn = (props) => {
   }
 
   const onEnter = () => {
-    colorSettings.isDown = false
     colorSettings.ref = currentColorBtn.current
     colorSettings.type = actionFilterList.COLOR_ENTER
     colorReducerDispatch(colorSettings)
   }
 
   const onLeave = () => {
-    colorSettings.isDown = false
     colorSettings.ref = currentColorBtn.current
     colorSettings.type = actionFilterList.COLOR_LEAVE
     colorReducerDispatch(colorSettings)
@@ -47,13 +45,6 @@ export const ColorBtn = (props) => {
     colorReducerDispatch(colorSettings)
   }
 
-  // const onMove = () => {
-  //   console.log('onMove !!!');
-  //   colorSettings.ref = currentColorBtn.current
-  //   colorSettings.type = actionFilterList.COLOR_MOVE
-  //   colorReducerDispatch(colorSettings)
-  // }
-
   // useEffect(() => {})
 
   return (
@@ -68,7 +59,6 @@ export const ColorBtn = (props) => {
       onMouseLeave={() => mixerMode && onLeave()}
       onMouseUp={() => mixerMode && onUp()}
       onMouseDown={() => mixerMode && onDown()}
-      // onMouseMove={() => mixerMode && colorSettings.isDown && onMove()}
     >
     </div>
   );

@@ -2,20 +2,20 @@
 import { actionFilterList } from '../action/action';
 
 // toolkit
-import { isColorSame, colorEnter, colorLeave, colorMove } from '../toolkit/toolkit';
+import { isColorSame, colorEnter, colorLeave, colorMove, hitTest } from '../toolkit/toolkit';
 
 export const colorReducer = (state, action) => {
-  console.log('state-', state);
-  console.log('action-', action);
-
   let resultArr = [...state];
   const index = resultArr.findIndex((item) => { return isColorSame(item, action) });
 
   switch (action.type) {
     case actionFilterList.COLOR:
-      // TO DO : mistake-proof for first time same color clicking.
       switch(true){
         case resultArr.length < 2 :
+          const isDuplicatedColorExist = resultArr.filter((color) => { return isColorSame(color, action) }).length > 0;
+          const isntResultArrEmpty = resultArr.length > 0;
+          if (isntResultArrEmpty && isDuplicatedColorExist) { return resultArr }
+
           resultArr.push(action)
           break;
         case resultArr.length == 2 :
@@ -46,11 +46,6 @@ export const colorReducer = (state, action) => {
       resultArr[index] = action;
 
       return resultArr
-    case actionFilterList.COLOR_MOVE:
-      resultArr[index] = action;
-      colorMove(action);
-
-      return resultArr
     case actionFilterList.REVERSE:
       console.log('REVERSE');
       return action
@@ -58,4 +53,29 @@ export const colorReducer = (state, action) => {
       console.log('ERASE');
       return action
   }
+}
+
+export const mixerReducer = (state, action) => {
+  switch (action.type) {
+    case actionFilterList.MIXER_MOVE:
+      action.colorUpdateNewEnum.forEach((colorSettings) => {
+        if (!colorSettings.isDown){ return }
+
+        const currentColorRef = colorSettings.ref;
+        colorMove(currentColorRef);
+      })
+
+      if (hitTest()) {
+        // TO DO :
+        // 1.trans first item's color in arry.
+        // 2.change first item's props in array.
+        // 3.remove the second item in array.
+        return action
+      }
+
+      return state
+    default:
+      return state
+  }
+
 }

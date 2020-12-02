@@ -14,10 +14,22 @@ import '../scss/mixer.scss';
 import { CoMixingContext } from '../context/context';
 
 export const Mixer = () => {
-  const { colorUpdateNewEnum, colorReducerDispatch } = useContext(CoMixingContext);
+  const { colorUpdateNewEnum, colorReducerDispatch, mixerReducerDispatch } = useContext(CoMixingContext);
+  const tmpMixerReducerDispatch = () => {
+    const isLeastOneColorDown = colorUpdateNewEnum.filter((item) => { return item.isDown }).length > 0;
+    if (!isLeastOneColorDown){ return };
+
+    const tmpAction = {
+      'colorUpdateNewEnum': colorUpdateNewEnum,
+      'type': actionFilterList.MIXER_MOVE
+    }
+    mixerReducerDispatch(tmpAction);
+  }
 
   return (
-    <div className='mixer'>
+    <div className='mixer'
+      onMouseMove={tmpMixerReducerDispatch}
+    >
       {
         colorUpdateNewEnum.map((item, index) => {
           return (
@@ -26,7 +38,8 @@ export const Mixer = () => {
               colorSettings={item}
               colorReducerDispatch={colorReducerDispatch}
               mixerMode={true}
-              index={index}>
+              index={index}
+            >
             </ColorBtn>
           )
         })
