@@ -1,8 +1,11 @@
+// gsao library
+import { gsap } from "gsap/all";
+
 // action
 import { actionFilterList } from '../action/action';
 
 // toolkit
-import { isColorSame, colorEnter, colorLeave, colorMove, hitTest } from '../toolkit/toolkit';
+import { isColorSame, colorEnter, colorLeave, colorMove, checkHitTest, afterHitTest, resetHitTest  } from '../toolkit/toolkit';
 
 export const colorReducer = (state, action) => {
   let resultArr = [...state];
@@ -58,20 +61,32 @@ export const colorReducer = (state, action) => {
 export const mixerReducer = (state, action) => {
   switch (action.type) {
     case actionFilterList.MIXER_MOVE:
-      action.colorUpdateNewEnum.forEach((colorSettings) => {
-        if (!colorSettings.isDown){ return }
+      let hitTestResultEnum = {};
 
-        const currentColorRef = colorSettings.ref;
-        colorMove(currentColorRef);
+      action.colorUpdateNewEnum.forEach((colorSettings, index, array) => {
+        if (!colorSettings.isDown){ return }
+        colorMove(colorSettings.ref);
       })
 
-      if (hitTest()) {
+      hitTestResultEnum = checkHitTest(action.colorUpdateNewEnum);
+
+      hitTestResultEnum['hitList'].forEach((hitColorSettings) => {
+        console.log('hit-', hitColorSettings);
+        afterHitTest(hitColorSettings.ref);
+      })
+
+      hitTestResultEnum['nonHitLsit'].forEach((nonHitColorSettings) => {
+        console.log('nonHit-', nonHitColorSettings);
+        resetHitTest(nonHitColorSettings.ref);
+      })
+
+      // if (checkHitTest()) {
         // TO DO :
         // 1.trans first item's color in arry.
         // 2.change first item's props in array.
         // 3.remove the second item in array.
-        return action
-      }
+        // return action
+      // }
 
       return state
     default:

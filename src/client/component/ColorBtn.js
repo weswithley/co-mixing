@@ -1,7 +1,5 @@
 // library
 import React, { useEffect, useRef } from 'react';
-import { gsap, TweenMax, Back} from "gsap/all";
-gsap.registerPlugin(TweenMax, Back);
 
 // scss
 import '../scss/color-btn.scss';
