@@ -7,95 +7,130 @@ export const isColorSame = (oldColorSetting, newColorSetting) => {
 
 export const colorEnter = (ref) => {
   ref.style.zIndex = 100;
-  gsap.to(ref, { duration: 0.2, scale: 3, ease: "Back.inOut" });
+  gsap.to(ref, {
+      duration: 0.2,
+      scale: 1.5,
+      ease: "Back.inOut"
+    }
+  );
 }
 
 export const colorLeave = (ref) => {
   ref.style.zIndex = 0;
-  gsap.to(ref, { duration: 0.2, scale: 1, ease: "Back.inOut" });
+  gsap.to(ref, {
+      duration: 0.2,
+      scale: 1,
+      ease: "Back.inOut"
+    }
+  );
 }
 
-export const colorUp = () => {
-  document.querySelector('.mixer').removeEventListener('mousemove', colorMove);
-}
-
-export const colorDown = () => {
-  document.querySelector('.mixer').addEventListener('mousemove', colorMove);
-}
-
-export const colorMove = (ref) => {
+export const colorMove = (colorRef) => {
   const e = window.event;
-  gsap.to(ref, { duration: 0.01, left: e.clientX, top: e.clientY, ease: "Back.inOut" });
+  gsap.to(colorRef, {
+      duration: 0.01,
+      left: e.clientX,
+      top: e.clientY,
+      ease: "Back.inOut"
+    }
+  );
 }
 
 export const hitTest = (rect1, rect2) => {
-  const isHit = !(rect1.right < rect2.left || rect1.left > rect2.right || rect1.bottom < rect2.top || rect1.top > rect2.bottom);
+  const isSmallerThanRect2Left = rect1.left + rect1.width < rect2.left; // rect1.right < rect2.left
+  const isGreaterThanRect2Right = rect1.left > rect2.left + rect2.width; // rect1.left > rect2.right
+  const isSmallerThanRect2Top = rect1.top + rect1.height < rect2.top; // rect1.bottom < rect2.top
+  const isGreaterThanRect2Bottom = rect1.top > rect2.top + rect2.height; // rect1.top > rect2.bottom
+  const isHit = !(isSmallerThanRect2Left || isGreaterThanRect2Right || isSmallerThanRect2Top || isGreaterThanRect2Bottom);
   return isHit
 }
 
 export const checkHitTest = (colorUpdateNewEnum) => {
-  const resultEnum = {
-    'hitList' : [],
-    'nonHitLsit' : []
-  };
-
-  console.log('00000');
-
   const currentColorSetting = colorUpdateNewEnum.filter((color) => { return color.isDown })[0];
 
   colorUpdateNewEnum.forEach((color) => {
     const isEqualToCurrentSelectedColor = color.isDown;
     const isColorRefNull = !color.ref;
-    console.log('111111');
-    // console.log('isEqualToCurrentSelectedColor-', isEqualToCurrentSelectedColor);
-    // console.log('isColorRefNull-', isColorRefNull);
-    // console.log('------');
     if (isEqualToCurrentSelectedColor || isColorRefNull){ return }
-    console.log('222222');
-
     const rect1 = currentColorSetting.ref.getBoundingClientRect();
     const rect2 = color.ref.getBoundingClientRect();
-    console.log('rect12-', rect1, rect2);
-    if (hitTest(rect1, rect2)){
-      console.log('hit-color-', color);
-      resultEnum['hitList'].push(color);
+    const isHit = hitTest(rect1, rect2);
+
+    if (isHit){
+      if (currentColorSetting.isHit || color.isHit){ return }
+      const resultR = Math.floor((currentColorSetting.rgb.r + color.rgb.r) / 2);
+      const resultG = Math.floor((currentColorSetting.rgb.g + color.rgb.g) / 2);
+      const resultB = Math.floor((currentColorSetting.rgb.b + color.rgb.b) / 2);
+      const resultRGB = 'rgb(' + resultR + ',' + resultG + ',' + resultB + ')';
+
+      currentColorSetting.isHit = true;
+      currentColorSetting.ref.style.zIndex = 100;
+
+      gsap.to(currentColorSetting.ref, {
+          duration: 0.2,
+          ease: "Back.inOut",
+          backgroundColor: resultRGB
+        }
+      );
+
+      currentColorSetting.rgb = {
+        'r' : resultR,
+        'g' : resultG,
+        'b' : resultB
+      };
+
+      color.isHit = true;
+      color.ref.style.zIndex = 0;
+
+      gsap.to(color.ref, {
+          duration: 0.2,
+          scale: 1.5,
+          ease: "Back.inOut",
+          backgroundColor: resultRGB
+        }
+      );
+
     }else{
-      console.log('nonHit-color-', color);
-      resultEnum['nonHitLsit'].push(color);
+      const resultCurrentRGB = 'rgb(' + currentColorSetting.originRgb.r + ',' + currentColorSetting.originRgb.g + ',' + currentColorSetting.originRgb.b + ')';
+      const resultColorRGB = 'rgb(' + color.originRgb.r + ',' + color.originRgb.g + ',' + color.originRgb.b + ')';
+
+      currentColorSetting.isHit = color.isHit = false;
+      color.ref.style.zIndex = 0;
+      gsap.to(currentColorSetting.ref, {
+          duration: 0.2,
+          ease: "Back.inOut",
+          backgroundColor: resultCurrentRGB
+        }
+      );
+
+      gsap.to(color.ref, {
+          duration: 0.2,
+          scale: 1,
+          ease: "Back.inOut",
+          backgroundColor: resultColorRGB
+        }
+      );
+
+      currentColorSetting.rgb = {
+        'r': currentColorSetting.originRgb.r,
+        'g': currentColorSetting.originRgb.g,
+        'b': currentColorSetting.originRgb.b
+      };
+
+      color.rgb = {
+        'r': color.originRgb.r,
+        'g': color.originRgb.g,
+        'b': color.originRgb.b
+      };
+
     }
   })
-
-  return resultEnum
 }
 
-// export const checkHitTest = (colorSettings, colorUpdateNewEnum) => {
-//   const resultEnum = {
-//     'hitList' : [],
-//     'nonHitLsit' : []
-//   };
-//   colorUpdateNewEnum.forEach((color) => {
-//     const isEqualToCurrentSelectedColor = color.isDown;
-//     const isColorRefNull = !color.ref;
-//     if (isEqualToCurrentSelectedColor || isColorRefNull){ return }
-
-//     const rect1 = colorSettings.ref.getBoundingClientRect();
-//     const rect2 = color.ref.getBoundingClientRect();
-//     if (!(rect1.right < rect2.left || rect1.left > rect2.right || rect1.bottom < rect2.top || rect1.top > rect2.bottom)){
-//       resultEnum['hitList'].push(color);
-//     }else{
-//       resultEnum['nonHitLsit'].push(color);
-//     }
-//   })
-
-//   return resultEnum
-// }
-
-export const afterHitTest = (hitRef) => {
-  colorEnter(hitRef);
-  // gsap.to(hitRef, { duration: 0.2, scale: 1.3, ease: "Back.inOut" });
-}
-
-export const resetHitTest = (hitRef) => {
-  // colorLeave(hitRef);
-  gsap.set(hitRef, { scale: 1 });
+export const getCoMixer = (colorUpdateNewEnum) => {
+  colorUpdateNewEnum[0].isHit = false;
+  colorUpdateNewEnum[0].originRgb = colorUpdateNewEnum[0].rgb;
+  colorUpdateNewEnum = [colorUpdateNewEnum[0]];
+  console.log('colorUpdateNewEnum-', colorUpdateNewEnum);
+  return colorUpdateNewEnum
 }

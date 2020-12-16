@@ -1,11 +1,8 @@
-// gsao library
-import { gsap } from "gsap/all";
-
 // action
 import { actionFilterList } from '../action/action';
 
 // toolkit
-import { isColorSame, colorEnter, colorLeave, colorMove, checkHitTest, afterHitTest, resetHitTest  } from '../toolkit/toolkit';
+import { isColorSame, colorEnter, colorLeave, colorMove, checkHitTest, getCoMixer  } from '../toolkit/toolkit';
 
 export const colorReducer = (state, action) => {
   let resultArr = [...state];
@@ -13,16 +10,19 @@ export const colorReducer = (state, action) => {
 
   switch (action.type) {
     case actionFilterList.COLOR:
+      let currentColorSettings = {};
+      Object.keys(action).forEach((key) => { currentColorSettings[key] = action[key] }); // deep clone.
+
       switch(true){
         case resultArr.length < 2 :
-          const isDuplicatedColorExist = resultArr.filter((color) => { return isColorSame(color, action) }).length > 0;
+          const isDuplicatedColorExist = resultArr.filter((color) => { return isColorSame(color, currentColorSettings) }).length > 0;
           const isntResultArrEmpty = resultArr.length > 0;
           if (isntResultArrEmpty && isDuplicatedColorExist) { return resultArr }
 
-          resultArr.push(action)
+          resultArr.push(currentColorSettings)
           break;
         case resultArr.length == 2 :
-          resultArr[1] = action
+          resultArr[1] = currentColorSettings;
           break;
       }
 
@@ -42,7 +42,9 @@ export const colorReducer = (state, action) => {
 
       return resultArr
     case actionFilterList.COLOR_UP:
-      resultArr[index] = action;
+      if(action.isHit){
+        resultArr = getCoMixer(resultArr);
+      }
 
       return resultArr
     case actionFilterList.COLOR_DOWN:
@@ -61,32 +63,13 @@ export const colorReducer = (state, action) => {
 export const mixerReducer = (state, action) => {
   switch (action.type) {
     case actionFilterList.MIXER_MOVE:
-      let hitTestResultEnum = {};
 
-      action.colorUpdateNewEnum.forEach((colorSettings, index, array) => {
+      action.colorUpdateNewEnum.forEach((colorSettings) => {
         if (!colorSettings.isDown){ return }
         colorMove(colorSettings.ref);
       })
 
-      hitTestResultEnum = checkHitTest(action.colorUpdateNewEnum);
-
-      hitTestResultEnum['hitList'].forEach((hitColorSettings) => {
-        console.log('hit-', hitColorSettings);
-        afterHitTest(hitColorSettings.ref);
-      })
-
-      hitTestResultEnum['nonHitLsit'].forEach((nonHitColorSettings) => {
-        console.log('nonHit-', nonHitColorSettings);
-        resetHitTest(nonHitColorSettings.ref);
-      })
-
-      // if (checkHitTest()) {
-        // TO DO :
-        // 1.trans first item's color in arry.
-        // 2.change first item's props in array.
-        // 3.remove the second item in array.
-        // return action
-      // }
+      checkHitTest(action.colorUpdateNewEnum);
 
       return state
     default:

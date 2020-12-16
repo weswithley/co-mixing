@@ -17,42 +17,51 @@ export const ColorBtn = (props) => {
     left: !index && index !== 0 ? window.innerWidth / 2 : window.innerWidth / 2 - ((index * -1) * 30) // make 2 color mixer btns stay with order from left to right.
   }
 
+  const onClick = () => {
+    colorSettings.type = actionFilterList.COLOR;
+    colorReducerDispatch(colorSettings);
+  }
+
+  const onRemove = () => {
+    colorSettings.type = actionFilterList.COLOR_REMOVE;
+    colorReducerDispatch(colorSettings);
+  }
+
   const onEnter = () => {
-    colorSettings.ref = currentColorBtn.current
-    colorSettings.type = actionFilterList.COLOR_ENTER
-    colorReducerDispatch(colorSettings)
+    colorSettings.type = actionFilterList.COLOR_ENTER;
+    colorReducerDispatch(colorSettings);
   }
 
   const onLeave = () => {
-    colorSettings.ref = currentColorBtn.current
-    colorSettings.type = actionFilterList.COLOR_LEAVE
-    colorReducerDispatch(colorSettings)
+    colorSettings.type = actionFilterList.COLOR_LEAVE;
+    colorReducerDispatch(colorSettings);
   }
 
   const onUp = () => {
-    colorSettings.isDown = false
-    colorSettings.ref = currentColorBtn.current
-    colorSettings.type = actionFilterList.COLOR_UP
-    colorReducerDispatch(colorSettings)
+    colorSettings.isDown = false;
+    colorSettings.type = actionFilterList.COLOR_UP;
+    colorReducerDispatch(colorSettings);
   }
 
   const onDown = () => {
-    colorSettings.isDown = true
-    colorSettings.ref = currentColorBtn.current
-    colorSettings.type = actionFilterList.COLOR_DOWN
-    colorReducerDispatch(colorSettings)
+    colorSettings.isDown = true;
+    colorSettings.type = actionFilterList.COLOR_DOWN;
+    colorReducerDispatch(colorSettings);
   }
 
-  // useEffect(() => {})
+  useEffect(() => {
+    colorSettings.ref = currentColorBtn.current;
+    return
+  })
 
   return (
     <div
       className="color-btn"
       ref={currentColorBtn}
       style={styleEnum}
-      onClick={() => !mixerMode && colorReducerDispatch(colorSettings)}
-      onTouchStart={() => !mixerMode && colorReducerDispatch(colorSettings)}
-      onDoubleClick={() => mixerMode && colorReducerDispatch(colorSettings)}
+      onClick={() => !mixerMode && onClick(colorSettings)}
+      onTouchStart={() => !mixerMode && onClick(colorSettings)}
+      onDoubleClick={() => mixerMode && onRemove(colorSettings)}
       onMouseEnter={() => mixerMode && onEnter()}
       onMouseLeave={() => mixerMode && onLeave()}
       onMouseUp={() => mixerMode && onUp()}
