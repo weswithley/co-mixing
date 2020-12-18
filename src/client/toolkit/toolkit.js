@@ -9,7 +9,7 @@ export const colorEnter = (ref) => {
   ref.style.zIndex = 100;
   gsap.to(ref, {
       duration: 0.2,
-      scale: 1.5,
+      scale: 2,
       ease: "Back.inOut"
     }
   );
@@ -84,7 +84,7 @@ export const checkHitTest = (colorUpdateNewEnum) => {
 
       gsap.to(color.ref, {
           duration: 0.2,
-          scale: 1.5,
+          scale: 2,
           ease: "Back.inOut",
           backgroundColor: resultRGB
         }
