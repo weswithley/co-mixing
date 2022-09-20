@@ -25,8 +25,9 @@ export const colorLeave = (ref) => {
   );
 }
 
-export const colorMove = (colorRef) => {
-  const e = window.event;
+export const colorMove = (event, colorRef) => {
+  const e = event || window.event;
+
   gsap.to(colorRef, {
       duration: 0.01,
       left: e.clientX,
@@ -131,6 +132,5 @@ export const getCoMixer = (colorUpdateNewEnum) => {
   colorUpdateNewEnum[0].isHit = false;
   colorUpdateNewEnum[0].originRgb = colorUpdateNewEnum[0].rgb;
   colorUpdateNewEnum = [colorUpdateNewEnum[0]];
-  console.log('colorUpdateNewEnum-', colorUpdateNewEnum);
   return colorUpdateNewEnum
 }

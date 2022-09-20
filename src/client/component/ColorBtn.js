@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 
 // scss
-import '../scss/color-btn.scss';
+import '../scss/colorBtn.scss';
 
 // action
 import { actionFilterList } from '../action/action';
@@ -56,7 +56,7 @@ export const ColorBtn = (props) => {
 
   return (
     <div
-      className="color-btn"
+      className='colorBtn'
       ref={currentColorBtn}
       style={styleEnum}
       onClick={() => !mixerMode && onClick(colorSettings)}

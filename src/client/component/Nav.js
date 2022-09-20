@@ -8,12 +8,12 @@ import { ColorBtn } from './ColorBtn';
 import { CoMixingContext } from '../context/context';
 
 // scss
-import '../scss/nav.scss';
+import navStyle from '../scss/nav.module.scss';
 
 export const Nav = () => {
   const { colorDefaultEnum, colorReducerDispatch } = useContext(CoMixingContext);
   return (
-    <nav>
+    <nav className={navStyle['co-mixing-nav']}>
       {
         colorDefaultEnum.map((item) => {
           return (

@@ -12,7 +12,7 @@ import { Nav } from './Nav';
 import { Mixer } from './Mixer';
 
 // scss
-import '../scss/style.scss';
+import '../scss/style.module.scss';
 
 export const App = () => {
   const { colorDefaultEnum, colorNewEnum, iconDefaultEnum, colorReducer, mixerReducer } = mainEnum;

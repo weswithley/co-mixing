@@ -52,10 +52,8 @@ export const colorReducer = (state, action) => {
 
       return resultArr
     case actionFilterList.REVERSE:
-      console.log('REVERSE');
       return action
     case actionFilterList.ERASE:
-      console.log('ERASE');
       return action
   }
 }
@@ -65,13 +63,13 @@ export const mixerReducer = (state, action) => {
     case actionFilterList.MIXER_MOVE:
 
       action.colorUpdateNewEnum.forEach((colorSettings) => {
-        if (!colorSettings.isDown){ return }
-        colorMove(colorSettings.ref);
+        if (!colorSettings.isDown){ return state }
+        colorMove(action.event, colorSettings.ref);
       })
 
       checkHitTest(action.colorUpdateNewEnum);
 
-      return state
+      return action
     default:
       return state
   }

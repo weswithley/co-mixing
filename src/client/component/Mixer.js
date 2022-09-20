@@ -15,13 +15,15 @@ import { CoMixingContext } from '../context/context';
 
 export const Mixer = () => {
   const { colorUpdateNewEnum, colorReducerDispatch, mixerReducerDispatch } = useContext(CoMixingContext);
-  const tmpMixerReducerDispatch = () => {
+
+  const tmpMixerReducerDispatch = e => {
     const isLeastOneColorDown = colorUpdateNewEnum.filter((item) => { return item.isDown }).length > 0;
     if (!isLeastOneColorDown){ return };
 
     const tmpAction = {
-      'colorUpdateNewEnum': colorUpdateNewEnum,
-      'type': actionFilterList.MIXER_MOVE
+      'colorUpdateNewEnum': [...colorUpdateNewEnum],
+      'type': actionFilterList.MIXER_MOVE,
+      'event': e
     }
     mixerReducerDispatch(tmpAction);
   }
