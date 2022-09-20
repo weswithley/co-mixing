@@ -1,6 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const outputDirectory = 'bundle';
 
@@ -13,10 +13,19 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/i,
+        test: /\.(js|jsx)$/i,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              ['@babel/preset-env', { targets: "defaults" }],
+              "@babel/preset-react"
+            ],
+            plugins: [
+              '@babel/plugin-proposal-class-properties'
+            ]
+          }
         }
       },
       {
@@ -27,7 +36,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.s[ac]ss$/i,
+        test: /(\.module)?\.s[ac]ss$/i,
         use: [
           'style-loader',
           'css-loader',
@@ -40,18 +49,10 @@ module.exports = {
       }
     ]
   },
-  devServer: {
-    port: 5000,
-    open: true,
-    proxy: {
-      '/api': 'http://localhost:8080'
-    }
-  },
   plugins: [
-    new CleanWebpackPlugin([outputDirectory]),
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: './template/index.html',
-      favicon: './template/favicon.ico'
+      template: './template/index.html'
     })
   ]
 };
